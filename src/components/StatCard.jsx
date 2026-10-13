@@ -1,0 +1,1 @@
+export default ({ icon: Icon, label, value, color = '#2563eb' }) => <div className="card stat"><span className="ico" style={{ background: color + '1a', color }}><Icon size={20} /></span><div><small>{label}</small><h3>{value}</h3></div></div>
