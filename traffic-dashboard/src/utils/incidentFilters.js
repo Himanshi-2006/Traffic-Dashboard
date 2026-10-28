@@ -1,6 +1,0 @@
-import { typeInfo, validPos, place } from './formatters'
-export const filterIncidents = (list, f) => { const q = (f.q || '').toLowerCase(); return list.filter(i => (!f.type || i.event_type === f.type) && (!f.status || i.status === f.status) && (!f.from || (i.timestamp || '').slice(0, 10) >= f.from) && (!f.to || (i.timestamp || '').slice(0, 10) <= f.to) && (!q || [i.id, i.bus_id, i.location_name].some(v => String(v || '').toLowerCase().includes(q)))) }
-export const countBy = (l, fn) => l.reduce((m, i) => { const k = fn(i); m[k] = (m[k] || 0) + 1; return m }, {})
-export const byDay = l => Object.entries(countBy(l, i => (i.timestamp || '').slice(0, 10))).filter(([d]) => d).sort().map(([d, count]) => ({ date: d.slice(5), count }))
-export const byType = l => Object.entries(countBy(l, i => i.event_type)).map(([k, value]) => ({ key: k, name: typeInfo(k).label, value, color: typeInfo(k).color }))
-export function hotspots(l, min = 3) { const m = {}; l.filter(validPos).forEach(i => { const la = Math.round(i.latitude * 200) / 200, lo = Math.round(i.longitude * 200) / 200, k = la + ',' + lo; (m[k] = m[k] || { key: k, latitude: la, longitude: lo, count: 0, name: place(i) }).count++ }); return Object.values(m).filter(h => h.count >= min).sort((a, b) => b.count - a.count) }
